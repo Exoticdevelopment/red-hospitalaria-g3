@@ -1,0 +1,174 @@
+
+Router2>   enable
+Router2#   terminal length 0
+Router2#   show cdp neighbors
+Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater, P - Phone, 
+                  D - Remote, C - CVTA, M - Two-port Mac Relay 
+
+Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
+Switch2          Gig 0/0            124             S I   WS-C2960- Gig 0/1
+Switch4          Gig 0/1            138             S I   WS-C2960- Fas 0/3
+Router2#   show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+Embedded-Service-Engine0/0 unassigned      YES unset  administratively down down    
+GigabitEthernet0/0         unassigned      YES unset  up                    up      
+GigabitEthernet0/0.250     172.16.1.1      YES manual up                    up      
+GigabitEthernet0/0.260     172.16.2.129    YES manual up                    up      
+GigabitEthernet0/1         172.16.3.195    YES manual up                    up      
+Serial0/0/0                unassigned      YES unset  administratively down down    
+Serial0/0/1                unassigned      YES unset  administratively down down    
+Serial0/1/0                unassigned      YES unset  administratively down down    
+Serial0/1/1                unassigned      YES unset  administratively down down    
+Router2#   show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      172.16.0.0/16 is variably subnetted, 12 subnets, 6 masks
+S        172.16.0.0/24 [1/0] via 172.16.3.193
+C        172.16.1.0/24 is directly connected, GigabitEthernet0/0.250
+L        172.16.1.1/32 is directly connected, GigabitEthernet0/0.250
+S        172.16.2.0/25 [1/0] via 172.16.3.193
+C        172.16.2.128/25 is directly connected, GigabitEthernet0/0.260
+L        172.16.2.129/32 is directly connected, GigabitEthernet0/0.260
+S        172.16.3.0/26 [1/0] via 172.16.3.194
+S        172.16.3.64/26 [1/0] via 172.16.3.196
+S        172.16.3.128/27 [1/0] via 172.16.3.194
+S        172.16.3.160/27 [1/0] via 172.16.3.196
+C        172.16.3.192/29 is directly connected, GigabitEthernet0/1
+L        172.16.3.195/32 is directly connected, GigabitEthernet0/1
+Router2#   show running-config
+Building configuration...
+
+Current configuration : 2022 bytes
+!
+! Last configuration change at 18:08:41 UTC Mon Oct 26 2026
+! NVRAM config last updated at 18:08:42 UTC Mon Oct 26 2026
+! NVRAM config last updated at 18:08:42 UTC Mon Oct 26 2026
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+no ipv6 cef
+ip source-route
+ip cef
+!
+!
+!
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+crypto pki token default removal timeout 0
+!
+!
+license udi pid CISCO2901/K9 sn FTX164080RR
+!
+!
+!
+!
+!
+!
+!
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ description TRUNK_AL_SWITCH_DE_ACCESO
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.250
+ encapsulation dot1Q 250
+ ip address 172.16.1.1 255.255.255.0
+!
+interface GigabitEthernet0/0.260
+ encapsulation dot1Q 260
+ ip address 172.16.2.129 255.255.255.128
+!
+interface GigabitEthernet0/1
+ description R5_TRANSITO
+ ip address 172.16.3.195 255.255.255.248
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ no ip address
+ shutdown
+ clock rate 2000000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 2000000
+!
+interface Serial0/1/0
+ no ip address
+ shutdown
+ clock rate 2000000
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+ clock rate 2000000
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip route 172.16.0.0 255.255.255.0 172.16.3.193
+ip route 172.16.2.0 255.255.255.128 172.16.3.193
+ip route 172.16.3.0 255.255.255.192 172.16.3.194
+ip route 172.16.3.64 255.255.255.192 172.16.3.196
+ip route 172.16.3.128 255.255.255.224 172.16.3.194
+ip route 172.16.3.160 255.255.255.224 172.16.3.196
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport input all
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ login
+ transport input all
+!
+scheduler allocate 20000 1000
+end
+
+Router2#
+Router2#

@@ -80,7 +80,7 @@ CONFIGS = {
     "Switch0": sw_acceso("Switch0", 210, "R1_Urgencias", 220, "R2_Hospitalizacion"),
     "Switch1": sw_acceso("Switch1", 230, "R3_Laboratorio", 240, "R4_Farmacia", servidor_vlan=240),
     "Switch2": sw_acceso("Switch2", 250, "R6_Consulta", 260, "R7_Imagenes"),
-    "Switch3": sw_acceso("Switch3", 270, "R8_Administracion", 280, "R9_Ingenieria", servidor_vlan=270),
+    "Switch3": sw_acceso("Switch3", 270, "R8_Administracion", 280, "R9_Ing_Biomedica", servidor_vlan=270),
     "Switch4": ["hostname Switch4", "no ip domain-lookup",
                 "interface range FastEthernet0/1 - 4", "description R5_TRANSITO",
                 "switchport mode access", "switchport access vlan 1",

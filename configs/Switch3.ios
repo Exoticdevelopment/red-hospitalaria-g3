@@ -1,6 +1,6 @@
 ! =====================================================================
 ! Switch3  -  Switch de acceso (Catalyst 2960-24TT-L)
-! Atiende: R8_Administracion (VLAN 270, 172.16.3.64/26) y R9_Ingenieria (VLAN 280, 172.16.3.160/27)
+! Atiende: R8_Administracion (VLAN 270, 172.16.3.64/26) y R9_Ing_Biomedica (VLAN 280, 172.16.3.160/27)
 ! Uplink:  Gi0/1 (trunk 802.1Q) -> Router3 Gi0/0
 ! ---------------------------------------------------------------------
 ! Como aplicar: pegar UNA linea a la vez por consola (9600 8N1),
@@ -22,7 +22,7 @@ vlan 270
  name R8_Administracion
 exit
 vlan 280
- name R9_Ingenieria
+ name R9_Ing_Biomedica
 exit
 !
 ! ---------- TRUNK hacia el router (Router-on-a-Stick) ----------
@@ -48,7 +48,7 @@ interface FastEthernet0/1
  no shutdown
 exit
 interface FastEthernet0/2
- description PC_R9_Ingenieria
+ description PC_R9_Ing_Biomedica
  switchport mode access
  switchport access vlan 280
  spanning-tree portfast

@@ -1,0 +1,378 @@
+
+Switch3>
+Switch3>
+Switch3>
+Switch3>   enable
+Switch3#   terminal length 0
+Switch3#   show vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/4, Fa0/5, Fa0/6, Fa0/7
+                                                Fa0/8, Fa0/9, Fa0/10, Fa0/11
+                                                Fa0/12, Fa0/13, Fa0/14, Fa0/15
+                                                Fa0/16, Fa0/17, Fa0/18, Fa0/19
+                                                Fa0/20, Fa0/21, Fa0/22, Fa0/23
+                                                Fa0/24, Gi0/2
+270  R8_Administracion                active    Fa0/1, Fa0/3
+280  R9_Ingenieria                    active    Fa0/2
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+Switch3#   show running-config
+Building configuration...
+
+Current configuration : 1563 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+no ip domain-lookup
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface FastEthernet0/1
+ switchport access vlan 270
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/2
+ switchport access vlan 280
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/3
+ switchport access vlan 270
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+ description TRUNK_A_ROUTER
+ switchport trunk allowed vlan 270,280
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip http server
+ip http secure-server
+!
+line con 0
+line vty 5 15
+!
+end
+
+Switch3#
+Switch3#
+Switch3>
+Switch3>
+Switch3>enable
+Switch3#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch3(config)#vlan 280
+Switch3(config-vlan)# name R9_Ing_Biomedica
+Switch3(config-vlan)#exit
+Switch3(config)#interface FastEthernet0/2
+Switch3(config-if)# description PC_R9_Ing_Biomedica
+Switch3(config-if)#end
+Switch3#copy running-config startup-config
+Destination filename [startup-config]? terminal length 0
+%Error copying nvram:terminal (Invalid argument)
+Switch3#show vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/4, Fa0/5, Fa0/6, Fa0/7
+                                                Fa0/8, Fa0/9, Fa0/10, Fa0/11
+                                                Fa0/12, Fa0/13, Fa0/14, Fa0/15
+                                                Fa0/16, Fa0/17, Fa0/18, Fa0/19
+                                                Fa0/20, Fa0/21, Fa0/22, Fa0/23
+                                                Fa0/24, Gi0/2
+270  R8_Administracion                active    Fa0/1, Fa0/3
+280  R9_Ing_Biomedica                 active    Fa0/2
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+Switch3#show running-config
+*Mar  1 02:50:40.644: %SYS-5-CONFIG_I: Configured from console by console
+Building configuration...
+
+Current configuration : 1596 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+no ip domain-lookup
+!
+ --More--         !
+ --More--         !
+ --More--         !
+ --More--         !
+ --More--         !
+ --More--         spanning-tree mode pvst
+ --More--         spanning-tree extend system-id
+ --More--         !
+ --More--         vlan internal allocation policy ascending
+ --More--         !
+ --More--         !
+ --More--         !
+ --More--         interface FastEthernet0/1
+ --More--          switchport access vlan 270
+ --More--          switchport mode access
+ --More--          spanning-tree portfast
+ --More--         !
+ --More--         interface FastEthernet0/2
+ --More--          description PC_R9_Ing_Biomedica
+ --More--          switchport access vlan 280
+ --More--          switchport mode access
+ --More--          spanning-tree portfast
+ --More--         !
+ --More--         interface FastEthernet0/3
+ --More--          switchport access vlan 270
+ --More--          switchport mode access
+ --More--          spanning-tree portfast
+ --More--         !
+ --More--         interface FastEthernet0/4
+ --More--         !
+ --More--         interface FastEthernet0/5
+ --More--         !
+ --More--         interface FastEthernet0/6
+ --More--         !
+ --More--         interface FastEthernet0/7
+ --More--         !
+ --More--         interface FastEthernet0/8
+ --More--         !
+ --More--         interface FastEthernet0/9
+ --More--         !
+ --More--         interface FastEthernet0/10
+ --More--         !
+ --More--         interface FastEthernet0/11
+ --More--         !
+ --More--         interface FastEthernet0/12
+ --More--         !
+ --More--         interface FastEthernet0/13
+ --More--         !
+ --More--         interface FastEthernet0/14
+ --More--         !
+ --More--         interface FastEthernet0/15
+ --More--         !
+ --More--         interface FastEthernet0/16
+ --More--         !
+ --More--         interface FastEthernet0/17
+ --More--         !
+ --More--         interface FastEthernet0/18
+ --More--         !
+ --More--         interface FastEthernet0/19
+ --More--         !
+ --More--         interface FastEthernet0/20
+ --More--         !
+ --More--         interface FastEthernet0/21
+ --More--         !
+ --More--         interface FastEthernet0/22
+ --More--         !
+ --More--         interface FastEthernet0/23
+ --More--         !
+ --More--         interface FastEthernet0/24
+ --More--         !
+ --More--         interface GigabitEthernet0/1
+ --More--          description TRUNK_A_ROUTER
+ --More--          switchport trunk allowed vlan 270,280
+ --More--          switchport mode trunk
+ --More--         !
+ --More--         interface GigabitEthernet0/2
+ --More--         !
+ --More--         interface Vlan1
+ --More--          no ip address
+ --More--          shutdown
+ --More--         !
+ --More--         ip http server
+ --More--         ip http secure-server
+ --More--         !
+ --More--         line con 0
+ --More--         line vty 5 15
+ --More--         !
+ --More--         end
+ --More--         
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#
+Switch3#copy running-config startup-config
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+0 bytes copied in 0.831 secs (0 bytes/sec)
+Switch3#show startup-config | include R9
+ description PC_R9_Ing_Biomedica

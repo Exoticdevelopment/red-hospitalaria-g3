@@ -20,7 +20,7 @@ case "$1" in
   5)    DATOS="172.16.3.138/27  172.16.3.129 PC_Farmacia(Switch1_Fa0/2,VLAN240)";;
   6)    DATOS="172.16.2.138/25  172.16.2.129 PC_Imagenes(Switch2_Fa0/2,VLAN260)";;
   7)    DATOS="172.16.3.74/26   172.16.3.65  PC_Administracion(Switch3_Fa0/1,VLAN270)";;
-  8)    DATOS="172.16.3.170/27  172.16.3.161 PC_Biomedica(Switch3_Fa0/2,VLAN280)";;
+  8)    DATOS="172.16.3.170/27  172.16.3.161 PC_Ing_Biomedica(Switch3_Fa0/2,VLAN280)";;
   dns)  DATOS="172.16.3.130/27  172.16.3.129 Servidor_DNS(Switch1_Fa0/3,VLAN240)";;
   http) DATOS="172.16.3.66/26   172.16.3.65  Servidor_HTTP(Switch3_Fa0/3,VLAN270)";;
   *) echo "Uso: sudo bash $0 {1..8|dns|http}"; exit 1;;

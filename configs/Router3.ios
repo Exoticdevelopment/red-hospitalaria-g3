@@ -2,7 +2,7 @@
 ! Router3  -  Cisco 2901
 ! Gi0/0 -> Switch3 Gi0/1  (trunk 802.1Q, Router-on-a-Stick)
 ! Gi0/1 -> Switch4     (red de transito R5, 172.16.3.196/29)
-! LAN propias: R8 Administracion 172.16.3.64/26 (HTTP) y R9 Biomedica 172.16.3.160/27
+! LAN propias: R8 Administracion 172.16.3.64/26 (HTTP) y R9 Ingenieria biomedica 172.16.3.160/27
 ! =====================================================================
 enable
 configure terminal
@@ -30,7 +30,7 @@ interface GigabitEthernet0/0.270
  ! Esta IP es el GATEWAY que configuran los PCs de esa VLAN (primer host)
 exit
 !
-! ---------- Subinterfaz VLAN 280: gateway de R9 Biomedica 172.16.3.160/27 ----------
+! ---------- Subinterfaz VLAN 280: gateway de R9 Ingenieria biomedica 172.16.3.160/27 ----------
 interface GigabitEthernet0/0.280
  encapsulation dot1Q 280
  ! dot1Q 280 -> esta subinterfaz atiende las tramas etiquetadas con VLAN 280

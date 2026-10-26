@@ -22,7 +22,7 @@ echo   4) PC   Laboratorio        (Switch1 Fa0/1)  172.16.3.10/26
 echo   5) PC   Farmacia           (Switch1 Fa0/2)  172.16.3.138/27
 echo   6) PC   Imagenes           (Switch2 Fa0/2)  172.16.2.138/25
 echo   7) PC   Administracion     (Switch3 Fa0/1)  172.16.3.74/26
-echo   8) PC   Biomedica          (Switch3 Fa0/2)  172.16.3.170/27
+echo   8) PC   Ing. Biomedica     (Switch3 Fa0/2)  172.16.3.170/27
 echo.
 set /p OP=Elige el numero del PC:
 

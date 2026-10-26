@@ -62,7 +62,7 @@ ip route 172.16.3.64 255.255.255.192 172.16.3.196
 ip route 172.16.3.128 255.255.255.224 172.16.3.194
 ! -> R4 Farmacia esta detras de Router1 (172.16.3.194)
 ip route 172.16.3.160 255.255.255.224 172.16.3.196
-! -> R9 Biomedica esta detras de Router3 (172.16.3.196)
+! -> R9 Ingenieria biomedica esta detras de Router3 (172.16.3.196)
 !
 end
 copy running-config startup-config
