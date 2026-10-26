@@ -1,0 +1,75 @@
+! =====================================================================
+! Router3  -  Cisco 2901
+! Gi0/0 -> Switch3 Gi0/1  (trunk 802.1Q, Router-on-a-Stick)
+! Gi0/1 -> Switch4     (red de transito R5, 172.16.3.196/29)
+! LAN propias: R8 Administracion 172.16.3.64/26 (HTTP) y R9 Biomedica 172.16.3.160/27
+! =====================================================================
+enable
+configure terminal
+hostname Router3
+no ip domain-lookup
+config-register 0x2102
+! 0x2102 = arranque normal (lee la startup-config).
+! Si quedara en 0x2142 (recuperacion de contrasena), el router IGNORARIA
+! la configuracion guardada al reiniciar.
+!
+! ---------- Interfaz FISICA del trunk: sin IP, solo encendida ----------
+interface GigabitEthernet0/0
+ description TRUNK_A_SWITCH3
+ no ip address
+ no shutdown
+ ! Al encender la fisica, se encienden tambien sus subinterfaces
+exit
+!
+! ---------- Subinterfaz VLAN 270: gateway de R8 Administracion 172.16.3.64/26 (HTTP) ----------
+interface GigabitEthernet0/0.270
+ encapsulation dot1Q 270
+ ! dot1Q 270 -> esta subinterfaz atiende las tramas etiquetadas con VLAN 270
+ ! (el numero despues del punto es solo convencion; lo que manda es dot1Q)
+ ip address 172.16.3.65 255.255.255.192
+ ! Esta IP es el GATEWAY que configuran los PCs de esa VLAN (primer host)
+exit
+!
+! ---------- Subinterfaz VLAN 280: gateway de R9 Biomedica 172.16.3.160/27 ----------
+interface GigabitEthernet0/0.280
+ encapsulation dot1Q 280
+ ! dot1Q 280 -> esta subinterfaz atiende las tramas etiquetadas con VLAN 280
+ ! (el numero despues del punto es solo convencion; lo que manda es dot1Q)
+ ip address 172.16.3.161 255.255.255.224
+ ! Esta IP es el GATEWAY que configuran los PCs de esa VLAN (primer host)
+exit
+!
+! ---------- Interfaz de TRANSITO (red R5 compartida) ----------
+interface GigabitEthernet0/1
+ description R5_TRANSITO
+ ip address 172.16.3.196 255.255.255.248
+ ! /29 = 6 IP utiles; necesitamos 4 (una por router). /30 solo daria 2.
+ no shutdown
+exit
+!
+! ---------- RUTAS ESTATICAS hacia las 6 LAN remotas ----------
+! Formato: ip route <red destino> <mascara> <siguiente salto>
+! El siguiente salto es la IP de transito del router DUENO de esa LAN.
+! No se agregan rutas a las 2 LAN propias ni a R5: son "conectadas" (C).
+ip route 172.16.0.0 255.255.255.0 172.16.3.193
+! -> R2 Hospitalizacion esta detras de Router0 (172.16.3.193)
+ip route 172.16.1.0 255.255.255.0 172.16.3.195
+! -> R6 Consulta esta detras de Router2 (172.16.3.195)
+ip route 172.16.2.0 255.255.255.128 172.16.3.193
+! -> R1 Urgencias esta detras de Router0 (172.16.3.193)
+ip route 172.16.2.128 255.255.255.128 172.16.3.195
+! -> R7 Imagenes esta detras de Router2 (172.16.3.195)
+ip route 172.16.3.0 255.255.255.192 172.16.3.194
+! -> R3 Laboratorio esta detras de Router1 (172.16.3.194)
+ip route 172.16.3.128 255.255.255.224 172.16.3.194
+! -> R4 Farmacia esta detras de Router1 (172.16.3.194)
+!
+end
+copy running-config startup-config
+!
+! ---------- VERIFICACION ----------
+! show ip interface brief   -> Gi0/0, Gi0/0.x (2) y Gi0/1 en up/up
+! show ip route             -> 3 redes C + 6 rutas S
+! show cdp neighbors        -> Gi0/0 -> su switch, Gi0/1 -> Switch4
+! show version | include register  -> 0x2102
+! ping 172.16.3.193 / .194 / .195 / .196   -> los 4 routers en R5

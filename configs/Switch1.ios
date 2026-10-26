@@ -1,0 +1,74 @@
+! =====================================================================
+! Switch1  -  Switch de acceso (Catalyst 2960-24TT-L)
+! Atiende: R3_Laboratorio (VLAN 230, 172.16.3.0/26) y R4_Farmacia (VLAN 240, 172.16.3.128/27)
+! Uplink:  Gi0/1 (trunk 802.1Q) -> Router1 Gi0/0
+! ---------------------------------------------------------------------
+! Como aplicar: pegar UNA linea a la vez por consola (9600 8N1),
+! o usar:  sudo python3 scripts/linux/cisco_auto.py Switch1
+! En IOS, las lineas que empiezan con "!" son comentarios (se ignoran).
+! =====================================================================
+enable
+! enable -> modo privilegiado (prompt cambia de > a #)
+configure terminal
+! configure terminal -> modo de configuracion global (config)#
+hostname Switch1
+! hostname -> nombre del equipo; aparece en el prompt
+no ip domain-lookup
+! Evita que el switch intente resolver por DNS un comando mal escrito
+! (si no, se queda "Translating..." varios segundos)
+!
+! ---------- VLAN: cada VLAN = un dominio de broadcast separado ----------
+vlan 230
+ name R3_Laboratorio
+exit
+vlan 240
+ name R4_Farmacia
+exit
+!
+! ---------- TRUNK hacia el router (Router-on-a-Stick) ----------
+interface GigabitEthernet0/1
+ description TRUNK_A_ROUTER1
+ switchport mode trunk
+ ! mode trunk -> el puerto transporta varias VLAN etiquetadas con 802.1Q
+ ! (en 2960 no hace falta "switchport trunk encapsulation dot1q": solo soporta 802.1Q)
+ switchport trunk allowed vlan 230,240
+ ! allowed vlan -> solo dejamos pasar las 2 VLAN de este switch
+ no shutdown
+exit
+!
+! ---------- Puertos ACCESS para los PCs ----------
+interface FastEthernet0/1
+ description PC_R3_Laboratorio
+ switchport mode access
+ ! mode access -> el puerto pertenece a UNA sola VLAN; el PC no sabe de VLAN
+ switchport access vlan 230
+ spanning-tree portfast
+ ! portfast -> el puerto pasa a reenviar de inmediato (sin esperar ~30 s de STP)
+ ! Solo en puertos de equipos finales, nunca hacia otro switch
+ no shutdown
+exit
+interface FastEthernet0/2
+ description PC_R4_Farmacia
+ switchport mode access
+ switchport access vlan 240
+ spanning-tree portfast
+ no shutdown
+exit
+!
+! ---------- Puerto del servidor ----------
+interface FastEthernet0/3
+ description SERVIDOR_DNS_172.16.3.130
+ switchport mode access
+ switchport access vlan 240
+ spanning-tree portfast
+ no shutdown
+exit
+!
+end
+copy running-config startup-config
+! Guarda la configuracion (RAM -> NVRAM). Presionar Enter en [startup-config]
+!
+! ---------- VERIFICACION ----------
+! show vlan brief                      -> Fa0/1 en 230, Fa0/2 en 240, Fa0/3 en 240
+! show interfaces trunk                -> Gi0/1 trunking, VLAN 230,240
+! show interfaces Gi0/1 switchport     -> Administrative Mode: trunk

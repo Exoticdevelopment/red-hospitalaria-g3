@@ -1,0 +1,31 @@
+! =====================================================================
+! Switch4  -  Switch CENTRAL de transito (red R5 = 172.16.3.192/29)
+! Une las 4 interfaces Gi0/1 de los routers en un unico dominio de capa 2.
+! Fa0/1 -> Router0 Gi0/1 (172.16.3.193)
+! Fa0/2 -> Router1 Gi0/1 (172.16.3.194)
+! Fa0/3 -> Router2 Gi0/1 (172.16.3.195)
+! Fa0/4 -> Router3 Gi0/1 (172.16.3.196)
+! NO necesita VLAN de usuarios ni trunks: es solo la "red entre routers".
+! =====================================================================
+enable
+configure terminal
+hostname Switch4
+no ip domain-lookup
+!
+interface range FastEthernet0/1 - 4
+ ! interface range -> configura varios puertos a la vez
+ description R5_TRANSITO
+ switchport mode access
+ switchport access vlan 1
+ ! VLAN 1 = VLAN por defecto. Aqui solo es el dominio L2 de transito,
+ ! NO es una decima subred ni una VLAN de usuarios.
+ spanning-tree portfast
+ no shutdown
+exit
+end
+copy running-config startup-config
+!
+! ---------- VERIFICACION ----------
+! show vlan brief          -> Fa0/1-4 en VLAN 1
+! show interfaces status   -> Fa0/1-4 connected
+! show interfaces trunk    -> vacio (correcto: no hay trunks)

@@ -1,0 +1,4 @@
+log_*.txt
+evidencia_*.txt
+__pycache__/
+*.pyc
