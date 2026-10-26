@@ -22,6 +22,6 @@ ok 172.16.1.10    "PC2 Consulta (R6)"
 echo; echo "--- DNS (capa 7, UDP 53) ---"
 nslookup www.hospital.local 172.16.3.130 || echo "  [FALLA] nslookup"
 echo; echo "--- HTTP por nombre (capa 7, TCP 80) ---"
-curl -s -m 5 http://www.hospital.local | grep -o '<h1>.*</h1>' || echo "  [FALLA] HTTP por nombre"
+curl -s -m 5 --noproxy '*' http://www.hospital.local | grep -o '<h1>.*</h1>' || echo "  [FALLA] HTTP por nombre"
 echo; echo "--- Camino hasta el HTTP ---"
 command -v traceroute >/dev/null && traceroute -n -m 5 172.16.3.66 || tracepath -n 172.16.3.66

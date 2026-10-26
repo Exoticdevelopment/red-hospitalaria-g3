@@ -8,6 +8,8 @@ Uso (con el cable de consola ya conectado al equipo):
     sudo python3 cisco_auto.py Switch4 --puerto /dev/ttyUSB0
 
   --borrar  hace write erase (+ delete vlan.dat en switches) y reload antes de configurar.
+  --evidencia  NO configura nada: solo corre los "show" y los guarda en <Equipo>_evidencia.txt
+             sudo python3 cisco_auto.py Router0 --evidencia
 Equipos: Switch0 Switch1 Switch2 Switch3 Switch4 Router0 Router1 Router2 Router3
 Requiere: sudo apt install python3-serial
 """
@@ -92,6 +94,9 @@ CONFIGS = {
 }
 VERIFICAR_SW = ["show vlan brief", "show interfaces trunk"]
 VERIFICAR_RT = ["show ip interface brief", "show ip route"]
+EVIDENCIA_SW = ["show cdp neighbors", "show vlan brief", "show interfaces trunk", "show running-config"]
+EVIDENCIA_RT = ["show cdp neighbors", "show ip interface brief", "show ip route",
+                "show version | include register", "show running-config"]
 
 # ---------------------------------------------------------------- consola
 class Consola:
@@ -232,7 +237,19 @@ def main():
     ap.add_argument("--borrar", action="store_true", help="write erase + reload antes de configurar")
     ap.add_argument("--puerto", default="/dev/ttyUSB0")
     ap.add_argument("--si", action="store_true", help="no pedir confirmación")
+    ap.add_argument("--evidencia", action="store_true", help="solo guardar los show (no configura)")
     a = ap.parse_args()
+
+    if a.evidencia:
+        es_sw = a.equipo.startswith("Switch")
+        with open(f"{a.equipo}_evidencia.txt", "w") as log:
+            c = Consola(a.puerto, log)
+            llegar_a_priv(c)
+            c.enviar("terminal length 0"); c.esperar([PRIV_P], 5)
+            for cmd in (EVIDENCIA_SW if es_sw else EVIDENCIA_RT):
+                c.enviar(cmd); c.esperar([PRIV_P], 30)
+        print(f"\n\n>>> Evidencia guardada en {a.equipo}_evidencia.txt")
+        return
 
     es_switch = a.equipo.startswith("Switch")
     with open(f"log_{a.equipo}.txt", "a") as log:
