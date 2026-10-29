@@ -24,6 +24,12 @@ Una red de hospital con **9 áreas** (Urgencias, Farmacia, etc.). Cada área tie
 | 12 | [12_checklist_dia_del_examen.md](12_checklist_dia_del_examen.md) | Lista de lo que hay que hacer el día del examen, en orden | 5 min |
 | 13 | [13_chuleta_de_comandos.md](13_chuleta_de_comandos.md) | Todos los comandos en una sola página | — |
 
+## Montaje completo paso a paso
+Todo en un solo archivo, a mano o con scripts: [../GUIA_MONTAJE_COMPLETO.md](../GUIA_MONTAJE_COMPLETO.md)
+
+## Prueba de las 8 LAN cambiando IPs
+Paso a paso, a mano o con scripts: [../GUIA_PRUEBA_CAMBIANDO_IPS.md](../GUIA_PRUEBA_CAMBIANDO_IPS.md)
+
 ## Si solo tienes 1 hora antes del examen
 
 1. Lee el **resumen** de [01](01_conceptos_para_dummies.md) (la tabla del final).

@@ -5,6 +5,10 @@
 
 Red hospitalaria montada en **equipos Cisco reales** (4 routers 2901 y 5 switches 2960) con **VLSM, 8 VLAN, IEEE 802.1Q, Router-on-a-Stick, 24 rutas estáticas, DNS y HTTP**. ✅ Funcionando y verificada el 26-oct-2026.
 
+> 🛠️ **Montar todo desde cero (cables, switches, routers, servidores, PCs):** [GUIA_MONTAJE_COMPLETO.md](GUIA_MONTAJE_COMPLETO.md)
+>
+> 🔁 **Prueba de las 8 LAN cambiando IPs (la que pidió el profe):** [GUIA_PRUEBA_CAMBIANDO_IPS.md](GUIA_PRUEBA_CAMBIANDO_IPS.md)
+>
 > 📖 **¿Primera vez aquí?** Empieza por **[docs/00_EMPIEZA_AQUI.md](docs/00_EMPIEZA_AQUI.md)**. Todo está explicado desde cero.
 
 ---

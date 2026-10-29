@@ -12,6 +12,7 @@
 | `servidor_dns.sh` | Monta el DNS (dnsmasq) | `sudo bash servidor_dns.sh` |
 | `mini_dns.py` | DNS de respaldo en Python (si no hay dnsmasq) | lo abre `servidor_dns.sh` solo |
 | `servidor_http.sh` | Monta el servidor web (Apache o Python) | `sudo bash servidor_http.sh ["Grupo 3" "Nombres"]` |
+| `recorrido_lan.sh` | Prueba de las LAN cambiando IPs, área por área, con evidencia | `sudo bash recorrido_lan.sh 2 6 7 8` |
 | `diagnostico.sh` | Revisa capa por capa y dice dónde falla | `bash diagnostico.sh` |
 | `pruebas.sh` | Pruebas finales que sirven de evidencia | `bash pruebas.sh \| tee evidencia.txt` |
 
@@ -21,6 +22,7 @@
 |---|---|
 | `configurar_pc_windows.bat` | Doble clic → menú 1..8 para poner la IP · **R** para restaurar |
 | `configurar_pc_windows.ps1` | El código real (lo abre el .bat como administrador) |
+| `recorrido_windows.bat` / `.ps1` | Prueba de las LAN cambiando IPs, área por área, con evidencia |
 | `diagnostico_windows.bat` / `.ps1` | Revisa capa por capa y dice dónde falla |
 | `pruebas_windows.bat` | Pruebas finales que guardan `evidencia_<PC>.txt` |
 
